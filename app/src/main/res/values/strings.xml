@@ -25,4 +25,6 @@
     <string name="delete">Удалить</string>
     <string name="ok">ОК</string>
     <string name="dont_choice">Не выбрано</string>
+    <string name="alarm_switch_on">The alarm switches on</string>
+    <string name="alarm_switch_off">The alarm switches off</string>
 </resources>

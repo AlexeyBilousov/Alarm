@@ -1,6 +1,7 @@
 package com.riard.alarm.window;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -115,10 +116,23 @@ public class FragmentListAlarms extends Fragment implements RecyclerViewAdapter.
         sendMessageToActivity.startSetAlarm(alarm);
     }
 
-
+    @Override
+    public void updateDB(Alarm alarm) {
+        new AsyncTaskUpdateDB().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, alarm);
+    }
 
     public void changeAlarms() {
         loadAlarms.onContentChanged();
+    }
+
+    private class AsyncTaskUpdateDB extends AsyncTask<Alarm, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Alarm... alarms) {
+            SingletonDB singletonDB = SingletonDB.getInstance(getContext().getApplicationContext());
+            singletonDB.getDb().alarmDao().updateAlarm(alarms[0]);
+            return null;
+        }
     }
 }
 
@@ -140,8 +154,8 @@ class LoadAlarms extends AsyncTaskLoader<List<Alarm>> {
     public List<Alarm> loadInBackground() {
         Log.d(LOG, "Start LoadInBackground");
         List<Alarm> alarms;
-        SingletonDB workWithRoom = SingletonDB.getInstance(context);
-        alarms = workWithRoom.getDb().alarmDao().getAlarms();
+        SingletonDB singletonDB = SingletonDB.getInstance(context);
+        alarms = singletonDB.getDb().alarmDao().getAlarms();
         Log.d(LOG, "Finish LoadInBackground");
         return alarms;
     }

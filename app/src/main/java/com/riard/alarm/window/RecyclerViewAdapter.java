@@ -1,5 +1,6 @@
 package com.riard.alarm.window;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.riard.alarm.R;
 import com.riard.alarm.entity.Alarm;
@@ -20,8 +22,10 @@ public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>
 
     public interface SentMessageToFragment {
         void sendAlarm(Alarm alarm);
+        void updateDB(Alarm alarm);
     }
 
+    private Context context;
     private final String LOG = RecyclerViewAdapter.class.getName();
     private List<Alarm> alarms;
     private  SentMessageToFragment sentMessageToFragment;
@@ -30,6 +34,7 @@ public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>
         Log.d(LOG, "Start RecyclerViewAdapter" + alarms.size());
         this.alarms = alarms;
         sentMessageToFragment = (SentMessageToFragment) fragment;
+        context = fragment.getContext();
         Log.d(LOG, "Finish RecyclerViewAdapter");
     }
 
@@ -77,6 +82,7 @@ public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>
             textViewTime = itemView.findViewById(R.id.text_view_time);
             textViewTime.setOnClickListener(setAlarm);
             textViewDayOfWeek.setOnClickListener(setAlarm);
+            checkBoxWork.setOnClickListener(changeWorkAlarm);
         }
 
         View.OnClickListener setAlarm = new View.OnClickListener() {
@@ -85,5 +91,24 @@ public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>
                sentMessageToFragment.sendAlarm(alarms.get(position));
             }
         };
+
+        View.OnClickListener changeWorkAlarm = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean b = checkBoxWork.isChecked();
+                StringBuilder stringBuilder = new StringBuilder();
+                if (b) {
+                    stringBuilder.append(context.getResources().getString(R.string.alarm_switch_on));
+                } else {
+                    stringBuilder.append(context.getResources().getString(R.string.alarm_switch_off));
+                }
+                alarms.get(position).setWork(b);
+                sentMessageToFragment.updateDB( alarms.get(position));
+                Toast.makeText(context, stringBuilder, Toast.LENGTH_SHORT).show();
+            }
+        };
+
+
+
     }
 }
