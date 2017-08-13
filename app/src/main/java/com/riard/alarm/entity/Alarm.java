@@ -4,7 +4,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "alarms")
 public class Alarm {
 
     private boolean vibration;

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="3dp"
+    android:layout_marginTop="6dp">
+
+    <ImageView
+        android:id="@+id/image_view_set_alarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="5dp"
+        app:srcCompat="@drawable/ic_menu_manage" />
+
+    <ImageView
+        android:id="@+id/image_view_type_ring"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/image_view_set_alarm"
+        app:srcCompat="@drawable/ic_menu_camera" />
+
+    <TextView
+        android:id="@+id/text_view_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/image_view_type_ring"
+        android:layout_toRightOf="@+id/check_box_work_alarm"
+        android:textSize="@dimen/size_time"
+        tools:text="07:30" />
+
+    <TextView
+        android:id="@+id/text_view_days_of_week"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_view_time"
+        android:layout_toLeftOf="@+id/image_view_type_ring"
+        android:layout_toRightOf="@+id/check_box_work_alarm"
+        tools:text="Пн Вт Чт" />
+
+    <CheckBox
+        android:id="@+id/check_box_work_alarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="5dp"
+        android:checked="false" />
+</RelativeLayout>

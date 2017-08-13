@@ -5,4 +5,24 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <string name="monday">Пн</string>
+    <string name="tuesday">Вт</string>
+    <string name="wednesday">Ср</string>
+    <string name="thursday">Чт</string>
+    <string name="friday">Пт</string>
+    <string name="saturday">Сб</string>
+    <string name="sunday">Вс</string>
+    <string name="add_alarm">Добавить будильник</string>
+    <string name="add_timer">Добавить таймер</string>
+    <string name="time">Время</string>
+    <string name="days_of_week">Дни недели</string>
+    <string name="sound">Звук сигнала</string>
+    <string name="vibration">Вибросигнал</string>
+    <string name="type_wake_up">Способ отключения будильника</string>
+    <string name="description">Описание</string>
+    <string name="cancel">Отмена</string>
+    <string name="delete">Удалить</string>
+    <string name="ok">ОК</string>
+    <string name="dont_choice">Не выбрано</string>
 </resources>
