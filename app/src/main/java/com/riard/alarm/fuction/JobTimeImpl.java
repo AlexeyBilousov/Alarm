@@ -14,19 +14,28 @@ public class JobTimeImpl implements JobTime {
 
     @Override
     public String getCurrentTime() {
-        Log.d(LOG, "Start getCurrentTime");
-        StringBuilder stringBuilder = new StringBuilder();
         Calendar calendar = Calendar.getInstance();
-        if (calendar.get(Calendar.HOUR_OF_DAY) < CHECK_TEN) {
+        return getTime(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+    }
+
+    @Override
+    public String getChoiceTime(int hours, int minutes) {
+        return getTime(hours, minutes);
+    }
+
+    private String getTime(int hours, int minutes) {
+        Log.d(LOG, "Start getTime");
+        StringBuilder stringBuilder = new StringBuilder();
+        if (hours < CHECK_TEN) {
             stringBuilder.append(ZERO);
         }
-        stringBuilder.append(calendar.get(Calendar.HOUR_OF_DAY));
+        stringBuilder.append(hours);
         stringBuilder.append(SEPARATOR);
-        if (calendar.get(Calendar.MINUTE) < CHECK_TEN) {
+        if (minutes < CHECK_TEN) {
             stringBuilder.append(ZERO);
         }
-        stringBuilder.append(calendar.get(Calendar.MINUTE));
-        Log.d(LOG, "Finish getCurrentTime");
+        stringBuilder.append(minutes);
+        Log.d(LOG, "Finish getTime");
         return stringBuilder.toString();
     }
 }

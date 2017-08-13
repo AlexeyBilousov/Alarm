@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.codetroopers.betterpickers.radialtimepicker.RadialTimePickerDialogFragment;
 import com.riard.alarm.R;
 import com.riard.alarm.entity.Alarm;
 import com.riard.alarm.fuction.JobTime;
@@ -21,6 +23,9 @@ public class FragmentSetAlarm extends Fragment {
     public interface SendMessageFromActivity {
         Alarm getAlarm();
     }
+
+    private final String LOG = FragmentSetAlarm.class.getName();
+    private static final String TAG_TIME = "timePickerDialogFragment";
 
     private Button buttonTime;
     private Button buttonDayOfWeek;
@@ -55,6 +60,7 @@ public class FragmentSetAlarm extends Fragment {
         buttonTime = view.findViewById(R.id.button_time);
         checkBoxVibration = view.findViewById(R.id.check_box_vibration);
         editTextDescription = view.findViewById(R.id.edit_text_description);
+        buttonTime.setOnClickListener(setTime);
         return view;
     }
 
@@ -83,4 +89,30 @@ public class FragmentSetAlarm extends Fragment {
         }
         checkBoxVibration.setChecked(alarm.isVibration());
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        RadialTimePickerDialogFragment radialTimePickerDialogFragment = (RadialTimePickerDialogFragment)getFragmentManager().findFragmentByTag(TAG_TIME);
+        if (radialTimePickerDialogFragment != null) {
+            radialTimePickerDialogFragment.setOnTimeSetListener(onTimeSetListener);
+        }
+    }
+
+    View.OnClickListener setTime = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            RadialTimePickerDialogFragment radialTimePickerDialogFragment = new RadialTimePickerDialogFragment();
+            radialTimePickerDialogFragment.setOnTimeSetListener(onTimeSetListener);
+            radialTimePickerDialogFragment.setForced24hFormat();
+            radialTimePickerDialogFragment.show(getFragmentManager(), TAG_TIME);
+        }
+    };
+
+    RadialTimePickerDialogFragment.OnTimeSetListener onTimeSetListener = new RadialTimePickerDialogFragment.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(RadialTimePickerDialogFragment dialog, int hourOfDay, int minute) {
+            buttonTime.setText(jobTime.getChoiceTime(hourOfDay, minute));
+        }
+    };
 }
