@@ -13,6 +13,8 @@ import android.widget.EditText;
 
 import com.riard.alarm.R;
 import com.riard.alarm.entity.Alarm;
+import com.riard.alarm.fuction.JobTime;
+import com.riard.alarm.fuction.JobTimeImpl;
 
 public class FragmentSetAlarm extends Fragment {
 
@@ -32,6 +34,7 @@ public class FragmentSetAlarm extends Fragment {
 
     private Alarm alarm;
     private SendMessageFromActivity sendMessageFromActivity;
+    private JobTime jobTime;
 
     @Override
     public void onAttach(Context context) {
@@ -59,10 +62,11 @@ public class FragmentSetAlarm extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         alarm = sendMessageFromActivity.getAlarm();
+        jobTime = new JobTimeImpl();
         if (alarm.getTime() != null) {
             buttonTime.setText(alarm.getTime());
         } else {
-            buttonTime.setText("00:00");
+            buttonTime.setText(jobTime.getCurrentTime());
             buttonDelete.setVisibility(View.GONE);
         }
         if (alarm.getDaysOfWeek() != null) {
