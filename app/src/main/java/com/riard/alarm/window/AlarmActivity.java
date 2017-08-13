@@ -1,9 +1,10 @@
 package com.riard.alarm.window;
 
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,15 +14,33 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.riard.alarm.Constants;
+import com.riard.alarm.FirstStart;
 import com.riard.alarm.R;
+import com.riard.alarm.entity.Alarm;
 
 public class AlarmActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, FragmentListAlarms.SendMessageToActivity,
+        FragmentSetAlarm.SendMessageFromActivity{
+
+    private final String LOG = AlarmActivity.class.getName();
+
+    FragmentManager fragmentManager;
+    FragmentListAlarms fragmentListAlarms;
+    FragmentSetAlarm fragmentSetAlarm;
+
+    private Alarm alarm;
+    private SharedPreferences sharedPreferences;
+    private boolean flag;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(LOG, "Start onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
+        sharedPreferences = getSharedPreferences(Constants.NAME_FILE_FIRST_START, MODE_PRIVATE);
+        flagFirstStartRead();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -33,6 +52,18 @@ public class AlarmActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        fragmentListAlarms = new FragmentListAlarms();
+        fragmentSetAlarm = new FragmentSetAlarm();
+        fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().add(R.id.fragment_layout, fragmentListAlarms).commit();
+        if (!flag) {
+            Log.d(LOG, "First start");
+            new AsyncTaskFirstStart().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            flag = true;
+            flagFirstStartWrite();
+        }
+        Log.d(LOG, "Start onCreate");
     }
 
     @Override
@@ -87,8 +118,48 @@ public class AlarmActivity extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void startSetAlarm(Alarm alarm) {
+        this.alarm = alarm;
+        fragmentManager.beginTransaction().replace(R.id.fragment_layout, fragmentSetAlarm)
+                .addToBackStack(null).commit();
+    }
+
+    @Override
+    public Alarm getAlarm() {
+        return alarm;
+    }
+
+    void flagFirstStartRead() {
+        flag = sharedPreferences.getBoolean(Constants.NAME_FIRST_START_FLAG, false);
+    }
+
+    void flagFirstStartWrite() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(Constants.NAME_FIRST_START_FLAG, flag);
+        editor.commit();
+    }
+
+    private class AsyncTaskFirstStart extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            Log.d(LOG, "Creating... files");
+            FirstStart firstStart = new FirstStart(AlarmActivity.this.getApplicationContext());
+            firstStart.initData();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Log.d(LOG, "Created files!");
+            super.onPostExecute(aVoid);
+            fragmentListAlarms.changeAlarms();
+        }
     }
 }
