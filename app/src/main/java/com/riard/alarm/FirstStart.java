@@ -15,8 +15,8 @@ public class FirstStart {
 
     public void initData() {
         SingletonDB workWithRoom = SingletonDB.getInstance(context);
-        workWithRoom.getDb().alarmDao().insertAlarm(new Alarm(true, false, 0, 0, "Сб Вс", "", "", "10:00"),
-                new Alarm(true, false, 1, 0, "Пн Вт Ср Чт Пт", "", "", "07:30"));
+        workWithRoom.getDb().alarmDao().insertAlarm(new Alarm(true, false, 0, "SAT SUN", "", "", "", "10:00"),
+                new Alarm(true, false, 0, "MON TUE WED THU FRI", "", "", "", "07:30"));
     }
 
 

@@ -4,33 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="3dp"
-    android:layout_marginTop="6dp">
-
-    <ImageView
-        android:id="@+id/image_view_set_alarm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="5dp"
-        app:srcCompat="@drawable/ic_menu_manage" />
+    android:layout_marginTop="@dimen/padding_large">
 
     <ImageView
         android:id="@+id/image_view_type_ring"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/image_view_set_alarm"
+        android:padding="@dimen/padding_normal"
         app:srcCompat="@drawable/ic_menu_camera" />
 
     <TextView
         android:id="@+id/text_view_time"
+        style="@style/TextStyle.Time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_normal"
         android:layout_toLeftOf="@+id/image_view_type_ring"
         android:layout_toRightOf="@+id/check_box_work_alarm"
-        android:textSize="@dimen/size_time"
         tools:text="07:30" />
 
     <TextView
@@ -48,6 +40,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_margin="5dp"
+        android:layout_margin="@dimen/padding_normal"
         android:checked="false" />
 </RelativeLayout>

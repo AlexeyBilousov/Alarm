@@ -66,7 +66,6 @@ public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private CheckBox checkBoxWork;
-        private ImageView imageViewSetAlarm;
         private ImageView imageViewTypeRing;
         private TextView textViewDayOfWeek;
         private TextView textViewTime;
@@ -76,7 +75,6 @@ public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>
         public ViewHolder(View itemView) {
             super(itemView);
             checkBoxWork = itemView.findViewById(R.id.check_box_work_alarm);
-            imageViewSetAlarm = itemView.findViewById(R.id.image_view_set_alarm);
             imageViewTypeRing = itemView.findViewById(R.id.image_view_type_ring);
             textViewDayOfWeek = itemView.findViewById(R.id.text_view_days_of_week);
             textViewTime = itemView.findViewById(R.id.text_view_time);

@@ -27,4 +27,9 @@
     <string name="dont_choice">Не выбрано</string>
     <string name="alarm_switch_on">The alarm switches on</string>
     <string name="alarm_switch_off">The alarm switches off</string>
+    <string name="alarm_added">Alarm added!</string>
+    <string name="alarm_deleted">Alarm deleted!</string>
+    <string name="choose_music">Choose music</string>
+    <string name="nav_alarms">Alarms</string>
+    <string name="nav_broadcast">Weather</string>
 </resources>

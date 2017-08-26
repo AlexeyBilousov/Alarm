@@ -1,8 +1,11 @@
 package com.riard.alarm.window;
 
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
@@ -19,6 +22,9 @@ import com.riard.alarm.FirstStart;
 import com.riard.alarm.R;
 import com.riard.alarm.entity.Alarm;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class AlarmActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FragmentListAlarms.SendMessageToActivity,
         FragmentSetAlarm.SendMessageFromActivity{
@@ -33,12 +39,16 @@ public class AlarmActivity extends AppCompatActivity
     private SharedPreferences sharedPreferences;
     private boolean flag;
 
+    public static final int CREATE_ALARM = 0;
+    public static final int UPDATE_ALARM = 1;
+    private int typeCreateAlarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(LOG, "Start onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
+        alarm = new Alarm();
         sharedPreferences = getSharedPreferences(Constants.NAME_FILE_FIRST_START, MODE_PRIVATE);
         flagFirstStartRead();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -104,18 +114,13 @@ public class AlarmActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        switch (id) {
+            case R.id.nav_alarm:
 
-        } else if (id == R.id.nav_slideshow) {
+                break;
+            case R.id.nav_broadcast:
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+                break;
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -131,8 +136,24 @@ public class AlarmActivity extends AppCompatActivity
     }
 
     @Override
+    public void setTypeCreateAlarm(int type) {
+        typeCreateAlarm = type;
+    }
+
+    @Override
     public Alarm getAlarm() {
         return alarm;
+    }
+
+    @Override
+    public void cancelSetAlarm() {
+        fragmentManager.beginTransaction().replace(R.id.fragment_layout, fragmentListAlarms).commit();
+        fragmentListAlarms.changeAlarms();
+    }
+
+    @Override
+    public int getTypeCreateAlarm() {
+        return typeCreateAlarm;
     }
 
     void flagFirstStartRead() {

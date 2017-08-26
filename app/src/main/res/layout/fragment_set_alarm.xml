@@ -16,6 +16,7 @@
             android:id="@+id/button_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_normal"
             android:layout_weight="1"
             android:text="@string/cancel"
             tools:text="Отмена" />
@@ -32,6 +33,7 @@
             android:id="@+id/button_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/padding_normal"
             android:layout_weight="1"
             android:text="@string/ok"
             tools:text="Ок" />
@@ -46,6 +48,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_normal"
+            android:layout_marginTop="@dimen/padding_normal"
             android:text="@string/time"
             tools:text="Время" />
 
@@ -53,24 +57,28 @@
             android:id="@+id/button_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_normal"
             tools:text="07:30" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_normal"
+            android:layout_marginTop="@dimen/padding_normal"
             android:text="@string/days_of_week"
             tools:text="Дни недели" />
 
-        <Button
-            android:id="@+id/button_days_of_week"
+        <com.riard.alarm.customview.DaysOfWeekControl
+            android:id="@+id/day_of_week_control"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/dont_choice"
-            tools:text="Не выбрано" />
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/padding_normal"></com.riard.alarm.customview.DaysOfWeekControl>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_normal"
+            android:layout_marginTop="@dimen/padding_normal"
             android:text="@string/sound"
             tools:text="Звук сигнала" />
 
@@ -78,18 +86,24 @@
             android:id="@+id/button_sound"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_normal"
             android:text="@string/dont_choice"
             tools:text="Не выбрано" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_normal"
+            android:layout_marginRight="@dimen/padding_normal"
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/padding_normal"
+                android:layout_marginTop="@dimen/padding_normal"
                 android:text="@string/vibration"
                 tools:text="Вибросигнал" />
 
@@ -104,6 +118,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_normal"
+            android:layout_marginTop="@dimen/padding_normal"
             android:text="@string/type_wake_up"
             tools:text="Способ отключения будильника" />
 
@@ -111,6 +127,7 @@
             android:id="@+id/button_stop_alarm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_normal"
             android:text="@string/dont_choice"
             tools:text="Как отключить будильник?" />
 
@@ -118,6 +135,8 @@
             android:id="@+id/edit_text_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_normal"
+            android:layout_marginRight="@dimen/padding_normal"
             android:ems="10"
             android:hint="@string/description"
             android:inputType="textPersonName" />

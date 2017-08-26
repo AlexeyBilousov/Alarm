@@ -28,6 +28,7 @@ public class FragmentListAlarms extends Fragment implements RecyclerViewAdapter.
 
     public interface SendMessageToActivity {
         void startSetAlarm(Alarm alarm);
+        void setTypeCreateAlarm(int type);
     }
 
     SendMessageToActivity sendMessageToActivity;
@@ -107,12 +108,14 @@ public class FragmentListAlarms extends Fragment implements RecyclerViewAdapter.
     View.OnClickListener addAlarm = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            sendMessageToActivity.setTypeCreateAlarm(AlarmActivity.CREATE_ALARM);
             sendMessageToActivity.startSetAlarm(new Alarm());
         }
     };
 
     @Override
     public void sendAlarm(Alarm alarm) {
+        sendMessageToActivity.setTypeCreateAlarm(AlarmActivity.UPDATE_ALARM);
         sendMessageToActivity.startSetAlarm(alarm);
     }
 

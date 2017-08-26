@@ -8,7 +8,8 @@
         android:id="@+id/recycler_view_alarms"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/linear_layout_buttons" />
+        android:layout_below="@+id/linear_layout_buttons"
+        android:layout_marginTop="@dimen/padding_normal" />
 
     <LinearLayout
         android:id="@+id/linear_layout_buttons"
@@ -20,6 +21,8 @@
             android:id="@+id/button_alarm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_normal"
+            android:layout_marginTop="@dimen/padding_normal"
             android:layout_weight="1"
             android:text="@string/add_alarm"
             tools:text="Добавить будильник" />
@@ -28,6 +31,8 @@
             android:id="@+id/button_timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/padding_normal"
+            android:layout_marginTop="@dimen/padding_normal"
             android:layout_weight="1"
             android:text="@string/add_timer"
             tools:text="Добавить таймер" />
