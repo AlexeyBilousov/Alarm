@@ -1,4 +1,4 @@
-package com.riard.alarm.fuction;
+package com.riard.alarm.mvp.common;
 
 public interface JobTime {
 

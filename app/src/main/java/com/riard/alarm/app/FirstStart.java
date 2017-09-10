@@ -1,9 +1,9 @@
-package com.riard.alarm;
+package com.riard.alarm.app;
 
 import android.content.Context;
 
-import com.riard.alarm.database.SingletonDB;
-import com.riard.alarm.entity.Alarm;
+import com.riard.alarm.mvp.models.database.SingletonDB;
+import com.riard.alarm.mvp.models.Alarm;
 
 public class FirstStart {
 

@@ -1,9 +1,7 @@
-package com.riard.alarm.window;
+package com.riard.alarm.ui;
 
-import android.arch.persistence.room.Ignore;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -11,7 +9,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,20 +19,59 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.codetroopers.betterpickers.radialtimepicker.RadialTimePickerDialogFragment;
 import com.riard.alarm.R;
-import com.riard.alarm.customview.DaysOfWeekControl;
-import com.riard.alarm.database.SingletonDB;
-import com.riard.alarm.entity.Alarm;
-import com.riard.alarm.fuction.JobTime;
-import com.riard.alarm.fuction.JobTimeImpl;
+import com.riard.alarm.ui.view.DaysOfWeekControl;
+import com.riard.alarm.mvp.models.database.SingletonDB;
+import com.riard.alarm.mvp.models.Alarm;
+import com.riard.alarm.mvp.common.JobTime;
+import com.riard.alarm.mvp.common.JobTimeImpl;
+import com.riard.alarm.mvp.presenters.SetAlarmPresenter;
+import com.riard.alarm.mvp.views.SetAlarmView;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FragmentSetAlarm extends Fragment {
+public class FragmentSetAlarm extends MvpAppCompatFragment implements SetAlarmView {
+    @InjectPresenter
+    SetAlarmPresenter setAlarmPresenter;
+
+    @Override
+    public void setTime() {
+        RadialTimePickerDialogFragment radialTimePickerDialogFragment =
+                new RadialTimePickerDialogFragment();
+        radialTimePickerDialogFragment.setOnTimeSetListener(onTimeSetListener);
+        radialTimePickerDialogFragment.setForced24hFormat();
+        radialTimePickerDialogFragment.show(getFragmentManager(), TAG_TIME);
+    }
+
+    @Override
+    public void showTime(String time) {
+        buttonTime.setText(time);
+    }
+
+    @Override
+    public void setDaysOfWeek() {
+
+    }
+
+    @Override
+    public void showListAudio() {
+
+    }
+
+    @Override
+    public void showListTypeWakeUp() {
+
+    }
+
+    @Override
+    public void setDescription() {
+
+    }
 
     public interface SendMessageFromActivity {
         Alarm getAlarm();
@@ -96,7 +132,6 @@ public class FragmentSetAlarm extends Fragment {
         buttonOk.setOnClickListener(addAlarm);
         buttonCancel.setOnClickListener(cancel);
         buttonDelete.setOnClickListener(deleteAlarm);
-        daysOfWeekControl.setOnClickListener(daysOfWeekClick);
         buttonSound.setOnClickListener(setMusic);
         return view;
     }
@@ -172,11 +207,7 @@ public class FragmentSetAlarm extends Fragment {
     View.OnClickListener setTime = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            RadialTimePickerDialogFragment radialTimePickerDialogFragment =
-                    new RadialTimePickerDialogFragment();
-            radialTimePickerDialogFragment.setOnTimeSetListener(onTimeSetListener);
-            radialTimePickerDialogFragment.setForced24hFormat();
-            radialTimePickerDialogFragment.show(getFragmentManager(), TAG_TIME);
+            setAlarmPresenter.setTime();
         }
     };
 
@@ -184,22 +215,13 @@ public class FragmentSetAlarm extends Fragment {
             new RadialTimePickerDialogFragment.OnTimeSetListener() {
         @Override
         public void onTimeSet(RadialTimePickerDialogFragment dialog, int hourOfDay, int minute) {
-            buttonTime.setText(jobTime.getChoiceTime(hourOfDay, minute));
+            setAlarmPresenter.showTime(hourOfDay, minute);
         }
     };
 
     private void closeFragment() {
         sendMessageFromActivity.cancelSetAlarm();
     }
-
-
-
-    private View.OnClickListener daysOfWeekClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-
-        }
-    };
 
     private View.OnClickListener setMusic = new View.OnClickListener() {
         @Override
@@ -320,6 +342,7 @@ public class FragmentSetAlarm extends Fragment {
     private void stopMusic() {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
+            mediaPlayer = null;
         }
     }
 }

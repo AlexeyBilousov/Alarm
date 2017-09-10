@@ -1,9 +1,8 @@
-package com.riard.alarm.window;
+package com.riard.alarm.ui;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.Adapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,28 +12,40 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.arellomobile.mvp.MvpDelegate;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.riard.alarm.R;
-import com.riard.alarm.entity.Alarm;
+import com.riard.alarm.app.App;
+import com.riard.alarm.mvp.models.Alarm;
+import com.riard.alarm.mvp.presenters.ItemListAlarmPresenter;
+import com.riard.alarm.mvp.views.ItemListAlarmView;
+import com.riard.alarm.ui.adapter.MvpAdapter;
 
 import java.util.List;
 
-public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder> {
+public class RecyclerViewAdapter extends MvpAdapter<RecyclerViewAdapter.ViewHolder> implements ItemListAlarmView {
+    private Context context = App.getAppComponent().getContext();
+    @InjectPresenter
+    ItemListAlarmPresenter itemListAlarmPresenter;
+
+    @Override
+    public void showMessageSwitcher(String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
 
     public interface SentMessageToFragment {
         void sendAlarm(Alarm alarm);
-        void updateDB(Alarm alarm);
     }
 
-    private Context context;
     private final String LOG = RecyclerViewAdapter.class.getName();
     private List<Alarm> alarms;
     private  SentMessageToFragment sentMessageToFragment;
 
-    public RecyclerViewAdapter(List<Alarm> alarms, Fragment fragment) {
+    public RecyclerViewAdapter(List<Alarm> alarms, Fragment fragment, MvpDelegate<?> parentDelegate) {
+        super(parentDelegate, String.valueOf(0));
         Log.d(LOG, "Start RecyclerViewAdapter" + alarms.size());
         this.alarms = alarms;
         sentMessageToFragment = (SentMessageToFragment) fragment;
-        context = fragment.getContext();
         Log.d(LOG, "Finish RecyclerViewAdapter");
     }
 
@@ -93,16 +104,8 @@ public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>
         View.OnClickListener changeWorkAlarm = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean b = checkBoxWork.isChecked();
-                StringBuilder stringBuilder = new StringBuilder();
-                if (b) {
-                    stringBuilder.append(context.getResources().getString(R.string.alarm_switch_on));
-                } else {
-                    stringBuilder.append(context.getResources().getString(R.string.alarm_switch_off));
-                }
-                alarms.get(position).setWork(b);
-                sentMessageToFragment.updateDB( alarms.get(position));
-                Toast.makeText(context, stringBuilder, Toast.LENGTH_SHORT).show();
+                alarms.get(position).setWork(checkBoxWork.isChecked());
+                itemListAlarmPresenter.switcherWorkAlarm(alarms.get(position));
             }
         };
 

@@ -1,4 +1,4 @@
-package com.riard.alarm;
+package com.riard.alarm.app;
 
 import android.net.Uri;
 

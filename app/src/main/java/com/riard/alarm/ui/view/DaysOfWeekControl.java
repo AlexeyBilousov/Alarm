@@ -1,4 +1,4 @@
-package com.riard.alarm.customview;
+package com.riard.alarm.ui.view;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.riard.alarm.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**

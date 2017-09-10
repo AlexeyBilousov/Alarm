@@ -68,11 +68,11 @@
             android:text="@string/days_of_week"
             tools:text="Дни недели" />
 
-        <com.riard.alarm.customview.DaysOfWeekControl
+        <com.riard.alarm.ui.view.DaysOfWeekControl
             android:id="@+id/day_of_week_control"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/padding_normal"></com.riard.alarm.customview.DaysOfWeekControl>
+            android:layout_margin="@dimen/padding_normal"></com.riard.alarm.ui.view.DaysOfWeekControl>
 
         <TextView
             android:layout_width="match_parent"

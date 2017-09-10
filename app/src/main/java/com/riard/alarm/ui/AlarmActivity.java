@@ -1,11 +1,8 @@
-package com.riard.alarm.window;
+package com.riard.alarm.ui;
 
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
@@ -17,13 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.riard.alarm.Constants;
-import com.riard.alarm.FirstStart;
+import com.riard.alarm.app.Constants;
+import com.riard.alarm.app.FirstStart;
 import com.riard.alarm.R;
-import com.riard.alarm.entity.Alarm;
-
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.riard.alarm.mvp.models.Alarm;
 
 public class AlarmActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FragmentListAlarms.SendMessageToActivity,

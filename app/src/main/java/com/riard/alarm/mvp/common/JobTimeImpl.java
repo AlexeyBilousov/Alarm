@@ -1,4 +1,4 @@
-package com.riard.alarm.fuction;
+package com.riard.alarm.mvp.common;
 
 import android.util.Log;
 

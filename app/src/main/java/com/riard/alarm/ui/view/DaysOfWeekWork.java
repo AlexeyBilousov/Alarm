@@ -1,4 +1,4 @@
-package com.riard.alarm.customview;
+package com.riard.alarm.ui.view;
 
 import java.util.List;
 
