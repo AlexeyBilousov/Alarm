@@ -1,12 +1,9 @@
-package com.riard.alarm.window;
+package com.riard.alarm.ui;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,18 +13,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.riard.alarm.R;
-import com.riard.alarm.database.SingletonDB;
-import com.riard.alarm.entity.Alarm;
+import com.riard.alarm.mvp.models.Alarm;
+import com.riard.alarm.mvp.presenters.ListAlarmPresenter;
+import com.riard.alarm.mvp.views.ListAlarmView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentListAlarms extends Fragment implements RecyclerViewAdapter.SentMessageToFragment,
-        LoaderManager.LoaderCallbacks<List<Alarm>> {
+public class FragmentListAlarms extends MvpAppCompatFragment implements RecyclerViewAdapter.SentMessageToFragment,
+        LoaderManager.LoaderCallbacks<List<Alarm>>, ListAlarmView {
+    @InjectPresenter
+    ListAlarmPresenter listAlarmPresenter;
+
+    @Override
+    public void showListAlarms(List<Alarm> alarms) {
+        adapter = new RecyclerViewAdapter(alarms, this, getMvpDelegate());
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void showMessageSwitcher(String message) {
+
+    }
 
     public interface SendMessageToActivity {
         void startSetAlarm(Alarm alarm);
+        void setTypeCreateAlarm(int type);
     }
 
     SendMessageToActivity sendMessageToActivity;
@@ -92,9 +106,7 @@ public class FragmentListAlarms extends Fragment implements RecyclerViewAdapter.
         switch (loader.getId()) {
             case LOAD_ALARMS:
                 Log.d(LOG, "Get Result LoadAlarms");
-                alarms = data;
-                adapter = new RecyclerViewAdapter(alarms, this);
-                recyclerView.setAdapter(adapter);
+                listAlarmPresenter.showListAlarm(data);
                 break;
         }
     }
@@ -107,56 +119,22 @@ public class FragmentListAlarms extends Fragment implements RecyclerViewAdapter.
     View.OnClickListener addAlarm = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            sendMessageToActivity.setTypeCreateAlarm(AlarmActivity.CREATE_ALARM);
             sendMessageToActivity.startSetAlarm(new Alarm());
         }
     };
 
     @Override
     public void sendAlarm(Alarm alarm) {
+        sendMessageToActivity.setTypeCreateAlarm(AlarmActivity.UPDATE_ALARM);
         sendMessageToActivity.startSetAlarm(alarm);
-    }
-
-    @Override
-    public void updateDB(Alarm alarm) {
-        new AsyncTaskUpdateDB().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, alarm);
     }
 
     public void changeAlarms() {
         loadAlarms.onContentChanged();
     }
 
-    private class AsyncTaskUpdateDB extends AsyncTask<Alarm, Void, Void> {
 
-        @Override
-        protected Void doInBackground(Alarm... alarms) {
-            SingletonDB singletonDB = SingletonDB.getInstance(getContext().getApplicationContext());
-            singletonDB.getDb().alarmDao().updateAlarm(alarms[0]);
-            return null;
-        }
-    }
 }
 
-class LoadAlarms extends AsyncTaskLoader<List<Alarm>> {
 
-    private final String LOG = LoadAlarms.class.getName();
-
-    private Context context;
-
-    public LoadAlarms(Context context) {
-        super(context);
-        Log.d(LOG, "Start LoadAlarms");
-        this.context = context;
-    }
-
-
-
-    @Override
-    public List<Alarm> loadInBackground() {
-        Log.d(LOG, "Start LoadInBackground");
-        List<Alarm> alarms;
-        SingletonDB singletonDB = SingletonDB.getInstance(context);
-        alarms = singletonDB.getDb().alarmDao().getAlarms();
-        Log.d(LOG, "Finish LoadInBackground");
-        return alarms;
-    }
-}

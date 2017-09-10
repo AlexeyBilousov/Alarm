@@ -1,4 +1,4 @@
-package com.riard.alarm.database;
+package com.riard.alarm.mvp.models.database;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;

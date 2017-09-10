@@ -1,4 +1,4 @@
-package com.riard.alarm.entity;
+package com.riard.alarm.mvp.models;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
@@ -9,26 +9,27 @@ public class Alarm {
 
     private boolean vibration;
     private boolean work;
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private int typeWakeUp;
     private String daysOfWeek;
     private String description;
     private String sound;
+    private String soundName;
     private String time;
 
     public Alarm() {
     }
 
     @Ignore
-    public Alarm(boolean vibration, boolean work, int id, int typeWakeUp, String daysOfWeek, String description, String sound, String time) {
+    public Alarm(boolean vibration, boolean work, int typeWakeUp, String daysOfWeek, String description, String sound, String soundName, String time) {
         this.vibration = vibration;
         this.work = work;
-        this.id = id;
         this.typeWakeUp = typeWakeUp;
         this.daysOfWeek = daysOfWeek;
         this.description = description;
         this.sound = sound;
+        this.soundName = soundName;
         this.time = time;
     }
 
@@ -50,10 +51,6 @@ public class Alarm {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getTypeWakeUp() {
@@ -94,5 +91,17 @@ public class Alarm {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getSoundName() {
+        return soundName;
+    }
+
+    public void setSoundName(String soundName) {
+        this.soundName = soundName;
     }
 }
