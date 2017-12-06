@@ -18,9 +18,13 @@
           <option name="url" value="https://github.com/Arello-Mobile/Moxy.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/gentlecat/counter.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
-    <option name="cloneParentDir" value="D:\Android\MyProject\Pet\Alarm" />
+    <option name="cloneParentDir" value="D:\Android\MyProject\Project1" />
   </component>
   <component name="VcsApplicationSettings">
     <option name="PATCH_STORAGE_LOCATION" value="D:\Android\MyProject\Pet\Alarm" />
